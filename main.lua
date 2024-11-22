@@ -1,47 +1,17 @@
-morseCodeTable = {
-    A = ".-",
-    B = "-...",
-    C = "-.-.",
-    D = "-..",
-    E = ".",
-    F = "..-.",
-    G = "--.",
-    H = "....",
-    I = "..",
-    J = ".---",
-    K = "-.-",
-    L = ".-..",
-    M = "--",
-    N = "-.",
-    O = "---",
-    P = ".--.",
-    Q = "--.-",
-    R = ".-.",
-    S = "...",
-    T = "-",
-    U = "..-",
-    V = "...-",
-    W = ".--",
-    X = "-..-",
-    Y = "-.--",
-    Z = "--..",
-    ["0"] = "-----",
-    ["1"] = ".----",
-    ["2"] = "..---",
-    ["3"] = "...--",
-    ["4"] = "....-",
-    ["5"] = ".....",
-    ["6"] = "-....",
-    ["7"] = "--...",
-    ["8"] = "---..",
-    ["9"] = "----."
-}
+constants = require("constants")
+loadedFiles = require("fileLoader")
+img = loadedFiles.img
+sfx = loadedFiles.sfx
 
---input is an boolean that is set to true when there is input
-input = false
-inputLenght = 0
-noInputLength = 0
-inputArr = {}
+
+function morseCodeToCharacter(_MorseCode)
+    for i, v in pairs(constants.morseCodeTable) do
+        if v == _MorseCode then
+            return i
+        end
+    end
+    return nil
+end
 
 function arrToMorseCode(_Arr)
     local morseCode = ""
@@ -55,16 +25,15 @@ function arrToMorseCode(_Arr)
     return morseCode
 end
 
-function love.keypressed(_Key)
-    input = true
-end
-
-function love.keyreleased(_Key)
-    input = false
-end
+function love.keypressed(_Key) input = true end
+function love.keyreleased(_Key) input = false end
 
 function love.load()
-
+    --input is an boolean that is set to true when there is input
+    input = false
+    inputLenght = 0
+    noInputLength = 0
+    inputArr = {}
 end
 
 function love.update()
