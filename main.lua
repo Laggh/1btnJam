@@ -1,9 +1,8 @@
 constants = require("constants")
+config = require("config")
 loadedFiles = require("fileLoader")
 img = loadedFiles.img
 sfx = loadedFiles.sfx
-
-
 function morseCodeToCharacter(_MorseCode)
     for i, v in pairs(constants.morseCodeTable) do
         if v == _MorseCode then
@@ -34,6 +33,8 @@ function love.load()
     inputLenght = 0
     noInputLength = 0
     inputArr = {}
+
+
 end
 
 function love.update()
