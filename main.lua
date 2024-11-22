@@ -36,7 +36,14 @@ morseCodeTable = {
     ["8"] = "---..",
     ["9"] = "----."
 }
+
+
+
 function love.load()
+
+end
+
+function love.update()
 
 end
 
