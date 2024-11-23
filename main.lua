@@ -6,16 +6,23 @@ sfx = loadedFiles.sfx
 
 
 function checkInput()
-    if input then inputLenght = inputLenght + 1
-    else if inputLenght > 0 then
-        table.insert(inputArr, inputLenght)
-        inputLenght = 0
-    end
+    if input then 
+        inputLenght = inputLenght + 1
+        noInputLength = 0
+    else 
+        if inputLenght > 0 then
+            table.insert(inputArr, inputLenght)
+            inputLenght = 0
+        end
         noInputLength = noInputLength + 1
     end
-    if noInputLength > 60 then
+    if noInputLength > config.maxMorseCodeLength and #inputArr >= 1 then
         inputArr = {}
         noInputLength = 0
+        local morseStr = arrToMorseCode(inputArr)
+        local character = morseCodeToCharacter(morseStr)
+        print(morseStr, character)
+        onInput(character)
     end
 end
 
@@ -33,7 +40,7 @@ end
 function arrToMorseCode(_Arr)
     local morseCode = ""
     for i, v in ipairs(_Arr) do
-        if v > 20 then
+        if v > config.minDashLength then
             morseCode = morseCode .. "_"
         else
             morseCode = morseCode .. "."
@@ -52,15 +59,19 @@ function love.load()
     inputArr = {}
 end
 
+function onInput(_Input)
+    print("Input: ",_Input)
+end
+
 function love.update(dt)
     checkInput()
 
 end
 
 function love.draw(dt)
-    local morseCode = arrToMorseCode(inputArr)
+    local morseCode = arrToMorseCode(inputArr) or ""
     love.graphics.print(morseCode, 0, 0)
-    love.graphics.print(morseCodeToCharacter(morseCode), 0, 10)
+    love.graphics.print(morseCodeToCharacter(morseCode) or "", 0, 10)
     for i, v in ipairs(inputArr) do
         love.graphics.print(v, 0, 20+(i * 20))
     end
