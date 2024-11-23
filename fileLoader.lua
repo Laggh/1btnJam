@@ -12,6 +12,11 @@ loadedFiles.sfx = {
 
 }
 
+loadedFiles.font = {
+    small = love.graphics.newFont(12),
+    medium = love.graphics.newFont(24),
+    big = love.graphics.newFont(48)
+}
 
 
 

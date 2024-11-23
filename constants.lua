@@ -39,4 +39,11 @@ constants.morseCodeTable = {
     ["9"] = "----."
 }
 
+constants.gameStatesNames ={
+    "introScreen",
+    "menu",
+    "game",
+    "gameOver"
+}
+
 return constants
