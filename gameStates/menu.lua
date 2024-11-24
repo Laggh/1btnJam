@@ -38,3 +38,5 @@ function thisState.onInput(_Input)
     end
 
 end
+
+return thisState
