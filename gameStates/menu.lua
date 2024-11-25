@@ -2,8 +2,6 @@ local thisState = {}
 
 function thisState.load()
     randomMenuVariable = "random menu value"
-    stateTime = 0
-    globalTime = 0
 end
 
 function thisState.update(_Dt)

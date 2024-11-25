@@ -3,7 +3,7 @@ local thisState = {}
 
 function thisState.load()
     randomAhhVariable = "random ahh value"
-    stateTime = 0
+
     globalTime = 0
 end
 

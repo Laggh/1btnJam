@@ -23,6 +23,7 @@ function changeGameState(_State)
     gameState = gameStates[_State]
     gameState.load()
     love.window.setTitle(_State)
+    stateTime = 0
 end
 
 function setLimits(_Min,_Value,_Max)
