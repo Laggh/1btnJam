@@ -16,12 +16,25 @@ local img = loadedFiles.img
 local sfx = loadedFiles.sfx
 local fonts = loadedFiles.font
 
-function changeGameState(_State)
+function string.interpolate(_Str,_Args)
+    return (_Str:gsub('($%b{})', function(w) return _Args[w:sub(3, -2)] or w end))
+end
+function angleDiff(_Orr, _Dest)
+    local diff = _Dest - _Orr
+    if diff > math.pi then
+        diff = diff - 2 * math.pi
+    end
+    if diff < -math.pi then
+        diff = diff + 2 * math.pi
+    end
+    return diff end
+
+function changeGameState(_State,_Arg)
     for i,v in pairs(gameStates) do
         print(i,tostring(v))
     end
     gameState = gameStates[_State]
-    gameState.load()
+    gameState.load(_Arg)
     love.window.setTitle(_State)
     stateTime = 0
 end
@@ -47,9 +60,9 @@ function strJoin(...)
 
 function drawCentered(_Draw, _X, _Y, _R, _Sx , _Sy)
     local width, height = _Draw:getDimensions()
-    _Sx = _Sx or width
-    _Sy = _Sy or height
-    love.graphics.draw(_Draw, _X - width/2, _Y - height/2, _R, _Sx / width , _Sy / height) 
+
+    love.graphics.draw(_Draw, _X, _Y, _R, _Sx, _Sy ,width/2, height/2)
+
 end
 function checkInput()
     if input then 
@@ -87,11 +100,16 @@ function morseCodeToCharacter(_MorseCode)
 function arrToMorseCode(_Arr)
     local morseCode = ""
     for i, v in ipairs(_Arr) do
+        --ew goto i hate them but i need them bruh 😭
+        if v > config.maxMorseCodeLength then
+            goto continue
+        end
         if v > config.minDashLength then
             morseCode = morseCode .. "-"
         else
             morseCode = morseCode .. "."
         end
+        ::continue::
     end
     return morseCode end
 
@@ -108,6 +126,7 @@ function love.load()
     changeGameState("introScreen")
     stateTime = 0
     globalTime = 0
+    changeGameState("game")
 end
 
 function onInput(_Input)
@@ -117,6 +136,7 @@ end
 
 function love.update(dt)
     checkInput()
+    gameState.update(dt)
 
 end
 
