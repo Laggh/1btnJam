@@ -5,7 +5,10 @@ local loadedFiles = {}
 
 
 loadedFiles.img = {
-    
+    ant = {
+        [1] = nImg("img/formiga-01.png"),
+        [2] = nImg("img/formiga-02.png")
+    }
 }
 
 loadedFiles.sfx = {
