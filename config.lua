@@ -5,6 +5,7 @@ config = {
     minDashLength = 20,
 
     maxMorsePredictions = 5,
+    showMorsePredictions = true,
 }
 
 

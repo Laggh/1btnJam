@@ -24,6 +24,7 @@ function changeGameState(_State)
     gameState.load()
     love.window.setTitle(_State)
 end
+
 function setLimits(_Min,_Value,_Max)
     if _Value < _Min then return _Min end
     if _Value > _Max then return _Max end
@@ -47,7 +48,8 @@ function drawCentered(_Draw, _X, _Y, _R, _Sx , _Sy)
     local width, height = _Draw:getDimensions()
     _Sx = _Sx or width
     _Sy = _Sy or height
-    love.graphics.draw(_Draw, _X - width/2, _Y - height/2, _R, _Sx / width , _Sy / height) end
+    love.graphics.draw(_Draw, _X - width/2, _Y - height/2, _R, _Sx / width , _Sy / height) 
+end
 function checkInput()
     if input then 
         inputLenght = inputLenght + 1
@@ -63,8 +65,8 @@ function checkInput()
 
         noInputLength = 0
         local morseStr = arrToMorseCode(inputArr)
-        local character = morseCodeToCharacter(morseStr)
-        onInput(character)
+        local character = morseCodeToCharacter(morseStr) or ""
+        onInput(string.lower(character))
         inputArr = {}
     end
     if #inputArr > 0 then
@@ -79,10 +81,8 @@ function characterToMorseCode(_Character)
 
 function morseCodeToCharacter(_MorseCode)
     for i, v in pairs(constants.morseCodeTable) do
-        if v == _MorseCode then return i end
+        if v == _MorseCode then return i end 
     end end
-
-
 function arrToMorseCode(_Arr)
     local morseCode = ""
     for i, v in ipairs(_Arr) do
@@ -124,7 +124,6 @@ function love.draw(dt)
     screenLib.setScreen(800, 600)
 
     gameState.draw(dt)
-
     local morseCode = arrToMorseCode(inputArr) or ""
     if morseCode ~= "" then
         local width = 200
@@ -142,24 +141,27 @@ function love.draw(dt)
         love.graphics.printf(character, x, y + 5, width, "right")
 
 
-        local arrayOfAllTheNextPossibleCharacters = {}
-        for i, v in pairs(constants.morseCodeTable) do
-            if string.sub(v, 1, #morseCode) == morseCode then
-                table.insert(arrayOfAllTheNextPossibleCharacters, strJoin("(",i,")",v))
+        if config.showMorsePredictions then
+            local arrayOfAllTheNextPossibleCharacters = {}
+            for i, v in pairs(constants.morseCodeTable) do
+                if string.sub(v, 1, #morseCode) == morseCode then
+                    table.insert(arrayOfAllTheNextPossibleCharacters, strJoin("(",i,")",v))
+                end
+            end
+
+            while #arrayOfAllTheNextPossibleCharacters > config.maxMorsePredictions do
+                table.remove(arrayOfAllTheNextPossibleCharacters)
+            end
+            table.sort(arrayOfAllTheNextPossibleCharacters, function(a, b)
+                return #a < #b
+            end)
+
+            love.graphics.setFont(fonts.monospace.small)
+            for i, v in ipairs(arrayOfAllTheNextPossibleCharacters) do
+                love.graphics.print(v, x, y - 5 - i * 10)
             end
         end
 
-        while #arrayOfAllTheNextPossibleCharacters > config.maxMorsePredictions do
-            table.remove(arrayOfAllTheNextPossibleCharacters)
-        end
-        table.sort(arrayOfAllTheNextPossibleCharacters, function(a, b)
-            return #a < #b
-        end)
-
-        love.graphics.setFont(fonts.monospace.small)
-        for i, v in ipairs(arrayOfAllTheNextPossibleCharacters) do
-            love.graphics.print(v, x, y - 5 - i * 10)
-        end
         love.graphics.setFont(fonts.small)
 
     end

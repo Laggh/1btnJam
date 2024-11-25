@@ -25,11 +25,11 @@ function thisState.onInput(_Input)
         end
     end
 
-    if _Input == "p" then
+    if _Input == "P" then
         changeGameState("game")
     end
 
-    if _Input == "c" then
+    if _Input == "C" then
         changeGameState("config")
     end
 
