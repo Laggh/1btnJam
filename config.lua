@@ -1,8 +1,8 @@
 local config = {}
 
 config = {
-    maxMorseCodeLength = 60,
-    minDashLength = 20,
+    maxMorseCodeLength = 30,
+    minDashLength = 14,
 
     maxMorsePredictions = 5,
     showMorsePredictions = true,

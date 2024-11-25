@@ -69,7 +69,7 @@ function checkInput()
         onInput(string.lower(character))
         inputArr = {}
     end
-    if #inputArr > 0 then
+    if #inputArr > 0 or inputLenght > 1 then
         morseStartTimer = morseStartTimer + 1
     else
         morseStartTimer = 0
@@ -125,7 +125,7 @@ function love.draw(dt)
 
     gameState.draw(dt)
     local morseCode = arrToMorseCode(inputArr) or ""
-    if morseCode ~= "" then
+    if morseStartTimer > 0 then
         local width = 200
         local height = 40
         local x = 0
