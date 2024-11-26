@@ -1,7 +1,10 @@
 constants = require("constants")
 config = require("config")
 loadedFiles = require("fileLoader")
+
 screenLib = require("lib/screen")
+json = require("lib/json")
+
 love.window.setMode(800,600, {resizable=true, vsync=true, minwidth=400, minheight=300})
 
 gameStates = {}
@@ -12,9 +15,9 @@ for i,v in pairs(constants.gameStatesNames) do
     print("loaded: ",i,v)
 end
 
-local img = loadedFiles.img
-local sfx = loadedFiles.sfx
-local fonts = loadedFiles.font
+img = loadedFiles.img
+sfx = loadedFiles.sfx
+fonts = loadedFiles.font
 
 function string.interpolate(_Str,_Args)
     return (_Str:gsub('($%b{})', function(w) return _Args[w:sub(3, -2)] or w end))
